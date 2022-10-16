@@ -63,7 +63,8 @@ local tasklist_buttons = gears.table.join(
 
 awful.screen.connect_for_each_screen(function(s)
   -- Each screen has its own tag table.
-  awful.tag({ "", "", "", "", "", "" }, s, awful.layout.layouts[1])
+  -- awful.tag({ "", "", "", "", "", "" }, s, awful.layout.layouts[1])
+  awful.tag({ "", "", "", "", "", "" }, s, awful.layout.suit.tile)
 
   -- Create a promptbox for each screen
   s.mypromptbox = awful.widget.prompt()
@@ -103,17 +104,17 @@ awful.screen.connect_for_each_screen(function(s)
         },
         layout = wibox.layout.fixed.horizontal,
       },
-      -- margins = dpi(10),
+      margins = 10,
       widget = wibox.container.margin,
     },
     widget = wibox.container.background,
   }
 
   -- Create the wibox
-  s.mywibox = awful.wibar({ position = "top",
+  s.mywibox = awful.wibar({ position = "bottom",
   screen = s,
   width = s.geometry.width,
-  height = 40
+  height = 35
 })
 
   -- Add widgets to the wibox

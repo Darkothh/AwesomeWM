@@ -1,2 +1,2 @@
-require("config.layouts")
 require("config.keys")
+require("config.layouts")
