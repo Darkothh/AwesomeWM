@@ -1,1 +1,1 @@
-### Thanks to (https://github.com/AlphaTechnolog)[AlphaTechnolog]
+### Thanks to [AlphaTechnolog](https://github.com/AlphaTechnolog)
