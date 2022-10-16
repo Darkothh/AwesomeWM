@@ -1,6 +1,4 @@
 local gears = require("gears")
--- local dpi = xresources.apply_dpi
--- local helpers = require 'helpers'
 local awful = require("awful")
 require("awful.autofocus")
 local wibox = require("wibox")
@@ -10,10 +8,21 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 require("awful.hotkeys_popup.keys")
 terminal = "kitty"
 modkey = "Mod4"
--- editor = os.getenv("EDITOR") or "nano"
--- editor_cmd = terminal .. " -e " .. editor
--- {{{ Menu
--- Create a launcher widget and a main menu
+
+myawesomemenu = {
+  { "hotkeys", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
+  { "manual", terminal .. " -e man awesome" },
+  { "restart", awesome.restart },
+  { "quit", function() awesome.quit() end },
+}
+
+mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
+  { "open terminal", terminal }
+}
+})
+
+mylauncher = awful.widget.launcher({ image = beautiful.launcher_icon,
+  menu = mymainmenu })
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
@@ -80,8 +89,8 @@ awful.screen.connect_for_each_screen(function(s)
   s.mytaglist = awful.widget.taglist {
     screen  = s,
     filter  = awful.widget.taglist.filter.all,
-    -- buttons = taglist_buttons,
-    layout = {
+    buttons = taglist_buttons,
+    layout  = {
       layout = wibox.layout.fixed.horizontal,
       spacing = 13
     },
@@ -110,12 +119,14 @@ awful.screen.connect_for_each_screen(function(s)
     widget = wibox.container.background,
   }
 
+
+
   -- Create the wibox
   s.mywibox = awful.wibar({ position = "bottom",
-  screen = s,
-  width = s.geometry.width,
-  height = 35
-})
+    screen = s,
+    width = s.geometry.width,
+    height = 35
+  })
 
   -- Add widgets to the wibox
   s.mywibox:setup {
@@ -123,6 +134,7 @@ awful.screen.connect_for_each_screen(function(s)
     { -- Left widgets
       layout = wibox.layout.fixed.horizontal,
       s.mytaglist,
+      mylauncher,
       s.mypromptbox,
     },
     -- s.mytasklist, -- Middle widget
